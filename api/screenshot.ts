@@ -1,5 +1,5 @@
 
-const chrome = require('chrome-aws-lambda')
+const chrome = require('@sparticuz/chromium')
 const puppeteer = require('puppeteer-core')
 
 const getAbsoluteURL = (hash: string, path?: string) => {
@@ -28,7 +28,7 @@ export default async (req: any, res: any) => {
       args: chrome.args,
       defaultViewport: chrome.defaultViewport,
       executablePath: await chrome.executablePath,
-      headless: chrome.headless,
+      headless: 'new',
       ignoreHTTPSErrors: true
     })
   } else {
