@@ -9,11 +9,14 @@
   "author": "Viki Val",
   "license": "MIT",
   "dependencies": {
-    "chrome-aws-lambda": "^10.1.0",
-    "puppeteer": "^21.6.1"
+    "chrome-aws-lambda": "10.1.0",
+    "puppeteer-core": "10.1.0"
   },
   "devDependencies": {
     "@types/node": "^20.10.6",
     "typescript": "^5.3.3"
+  },
+  "engines": {
+    "node": "14.x"
   }
 }

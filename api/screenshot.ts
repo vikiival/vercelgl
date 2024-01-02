@@ -1,6 +1,6 @@
 
 const chrome = require('chrome-aws-lambda')
-const puppeteer = require('puppeteer')
+const puppeteer = require('puppeteer-core')
 
 const getAbsoluteURL = (hash: string, path?: string) => {
   if (process.env.NODE_ENV) {
