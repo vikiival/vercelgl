@@ -27,7 +27,7 @@ export default async (req: any, res: any) => {
     browser = await puppeteer.launch({
       args: chrome.args,
       defaultViewport: chrome.defaultViewport,
-      executablePath: await chrome.executablePath,
+      executablePath: await chrome.executablePath(),
       headless: 'new',
       ignoreHTTPSErrors: true
     })
