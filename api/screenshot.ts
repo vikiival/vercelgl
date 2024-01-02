@@ -2,24 +2,28 @@
 const chrome = require('chrome-aws-lambda')
 const puppeteer = require('puppeteer')
 
-const getAbsoluteURL = (path: string) => {
-  // if (process.env.NODE_ENV === 'development') {
-    return `http://localhost:3000/${path}`
-  // }
-  // https://image.w.kodadot.xyz/ipfs/bafybeiaylihby4c5tqzl6tps35hfha5xjofyzk4ztpsj6nh7z3jhxeth3y/?hash=0xecfac00a67f88d51a47f06e7e73d7a436609e44760926a7712be9b73356061d8
-  // return `https://image.w.kodadot.xyz/ipfs/bafybeiaylihby4c5tqzl6tps35hfha5xjofyzk4ztpsj6nh7z3jhxeth3y/${path}`
+const getAbsoluteURL = (hash: string, path?: string) => {
+  if (process.env.NODE_ENV) {
+    return `http://localhost:3000/${hash}`
+  }
+  
+  return `https://image.w.kodadot.xyz/ipfs/${path}/${hash}`
 }
 
 export default async (req: any, res: any) => {
   let {
-    query: { hash, cid, resolution }
+    query: { hash, path, resolution }
   } = req
 
-  if (!hash) return res.status(400).end(`No model provided`)
+  const isProd = process.env.NODE_ENV === 'production'
+
+  if (isProd && !path) return res.status(400).end(`No model provided`)
+
+  if (!hash) return res.status(400).end(`No hash provided`)
 
   let browser
 
-  if (process.env.NODE_ENV === 'production') {
+  if (isProd) {
     browser = await puppeteer.launch({
       args: chrome.args,
       defaultViewport: chrome.defaultViewport,
@@ -41,7 +45,7 @@ export default async (req: any, res: any) => {
     await page.setViewport({ width: 512, height: 512 })
   }
 
-  const url = getAbsoluteURL(`?hash=${hash}`)
+  const url = getAbsoluteURL(`?hash=${hash}`, path)
 
   console.log('url', url)
 
