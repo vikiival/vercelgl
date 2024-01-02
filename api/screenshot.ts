@@ -1,9 +1,9 @@
 
-const chrome = require('chrome-aws-lambda')
+const chrome = require('@sparticuz/chromium')
 const puppeteer = require('puppeteer-core')
 
 const getAbsoluteURL = (hash: string, path?: string) => {
-  if (process.env.NODE_ENV) {
+  if (!process.env.NODE_ENV) {
     return `http://localhost:3000/${hash}`
   }
   
@@ -27,8 +27,8 @@ export default async (req: any, res: any) => {
     browser = await puppeteer.launch({
       args: chrome.args,
       defaultViewport: chrome.defaultViewport,
-      executablePath: await chrome.executablePath,
-      headless: chrome.headless,
+      executablePath: await chrome.executablePath(),
+      headless: 'new',
       ignoreHTTPSErrors: true
     })
   } else {
