@@ -9,7 +9,7 @@ dependencies:
     specifier: ^119.0.2
     version: 119.0.2
   puppeteer-core:
-    specifier: ^21.6.1
+    specifier: ^21.5.1
     version: 21.6.1
 
 devDependencies:
