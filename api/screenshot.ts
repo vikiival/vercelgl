@@ -3,7 +3,7 @@ const chrome = require('@sparticuz/chromium')
 const puppeteer = require('puppeteer-core')
 
 const getAbsoluteURL = (hash: string, path?: string) => {
-  if (process.env.NODE_ENV) {
+  if (!process.env.NODE_ENV) {
     return `http://localhost:3000/${hash}`
   }
   
