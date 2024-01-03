@@ -74,7 +74,7 @@ export default async (req: any, res: any) => {
 
   const page = await browser.newPage()
 
-  await page.setViewport({ width: 512, height: 512 })
+  await page.setViewport({ width: 600, height: 600 })
 
   // const url = getAbsoluteURL(`?hash=${hash}`, path)
   const url = body.url
@@ -100,5 +100,14 @@ export default async (req: any, res: any) => {
   res.setHeader('Cache-Control', 's-maxage=10, stale-while-revalidate')
   res.setHeader('Content-Type', 'image/png')
   // Write the image to the response with the specified Content-Type
+  // CORS https://vercel.com/guides/how-to-enable-cors
+  res.setHeader('Access-Control-Allow-Credentials', true)
+  res.setHeader('Access-Control-Allow-Origin', '*')
+    // res.setHeader('Access-Control-Allow-Origin', req.headers.origin);
+  res.setHeader('Access-Control-Allow-Methods', 'GET,OPTIONS,PATCH,DELETE,POST,PUT')
+  res.setHeader(
+    'Access-Control-Allow-Headers',
+    'X-CSRF-Token, X-Requested-With, Accept, Accept-Version, Content-Length, Content-MD5, Content-Type, Date, X-Api-Version'
+  )
   res.end(data)
 }
