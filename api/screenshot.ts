@@ -104,7 +104,7 @@ export default async (req: any, res: any) => {
   // res.setHeader('Access-Control-Allow-Credentials', true)
   res.setHeader('Access-Control-Allow-Origin', '*')
     // res.setHeader('Access-Control-Allow-Origin', req.headers.origin);
-  res.setHeader('Access-Control-Allow-Headers', '*')
+  // res.setHeader('Access-Control-Allow-Headers', '*')
   res.setHeader('Access-Control-Allow-Methods', 'GET,HEAD,POST,OPTIONS')
   res.setHeader(
     'Access-Control-Allow-Headers',
