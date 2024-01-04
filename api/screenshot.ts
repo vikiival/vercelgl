@@ -46,6 +46,14 @@ export default async (req: any, res: any) => {
   } = req
 
   if (method !== 'POST') {
+    // CORS https://vercel.com/guides/how-to-enable-cors
+    res.setHeader('Access-Control-Allow-Credentials', true)
+    res.setHeader('Access-Control-Allow-Origin', '*')
+    res.setHeader('Access-Control-Allow-Methods', 'GET,OPTIONS,PATCH,DELETE,POST,PUT')
+    res.setHeader(
+      'Access-Control-Allow-Headers',
+      'X-CSRF-Token, X-Requested-With, Accept, Accept-Version, Content-Length, Content-MD5, Content-Type, Date, X-Api-Version'
+    )
     return res.status(200).end()
   }
 
@@ -99,13 +107,11 @@ export default async (req: any, res: any) => {
   // Set the s-maxage property which caches the images then on the Vercel edge
   res.setHeader('Cache-Control', 's-maxage=10, stale-while-revalidate')
   res.setHeader('Content-Type', 'image/png')
-  // Write the image to the response with the specified Content-Type
-  // CORS https://vercel.com/guides/how-to-enable-cors
-  // res.setHeader('Access-Control-Allow-Credentials', true)
-  res.setHeader('Access-Control-Allow-Origin', '*')
-    // res.setHeader('Access-Control-Allow-Origin', req.headers.origin);
+  // CORS
   // res.setHeader('Access-Control-Allow-Headers', '*')
-  res.setHeader('Access-Control-Allow-Methods', 'GET,HEAD,POST,OPTIONS')
+  res.setHeader('Access-Control-Allow-Credentials', true)
+  res.setHeader('Access-Control-Allow-Origin', '*')
+  res.setHeader('Access-Control-Allow-Methods', 'GET,OPTIONS,PATCH,DELETE,POST,PUT')
   res.setHeader(
     'Access-Control-Allow-Headers',
     'X-CSRF-Token, X-Requested-With, Accept, Accept-Version, Content-Length, Content-MD5, Content-Type, Date, X-Api-Version'
