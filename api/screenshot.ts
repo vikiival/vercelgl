@@ -46,7 +46,7 @@ export default async (req: any, res: any) => {
   } = req
 
   if (method !== 'POST') {
-    return res.status(200).end(`Only POST requests are accepted`)
+    return res.status(200).end()
   }
 
   if (!body) return res.status(400).end(`No body provided`)
