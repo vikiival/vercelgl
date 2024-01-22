@@ -24,6 +24,10 @@ Body
 <img width="1608" alt="Screenshot 2024-01-22 at 11 56 56" src="https://github.com/vikiival/vercelgl/assets/22471030/58f382b1-fb09-445b-a519-abdaad1b50ff">
 
 
+### ⚠️ Caveats
+
+Seems that many users have problem with paths etc.
+Using **pnpm** as package manager seemed to make a difference.
 
 ### Reference
 
