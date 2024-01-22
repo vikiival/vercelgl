@@ -21,7 +21,8 @@ Body
 }
 ```
 
-<img width="1610" alt="Screenshot 2024-01-22 at 11 55 25" src="https://github.com/vikiival/vercelgl/assets/22471030/57d3cc82-a8cf-4435-93cf-f868fb420dee">
+<img width="1608" alt="Screenshot 2024-01-22 at 11 56 56" src="https://github.com/vikiival/vercelgl/assets/22471030/58f382b1-fb09-445b-a519-abdaad1b50ff">
+
 
 
 ### Reference
