@@ -17,7 +17,7 @@ Body
 
 ```json
 {
-  "url": "https://developer.mozilla.org/en-US/docs/Web/HTML/Element/canvas"
+  "url": "https://bafybeigsw7gagsmvxxivt5kvrl6ueld7yszzef2aylxbzzafez6ybxscca.ipfs.nftstorage.link"
 }
 ```
 
