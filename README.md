@@ -3,7 +3,7 @@
 VercelGL is a simple, lightweight API to use serverless chrome.
 It is designed to be used with the [Vercel](https://vercel.com) platform, but can be used anywhere.
 
-### Usage
+## Usage
 
 currently there is only one route implemented
 
@@ -24,10 +24,26 @@ Body
 <img width="1608" alt="Screenshot 2024-01-22 at 11 56 56" src="https://github.com/vikiival/vercelgl/assets/22471030/58f382b1-fb09-445b-a519-abdaad1b50ff">
 
 
-### ⚠️ Caveats
+## FAQ
+
+### This example does not work
 
 Seems that many users have problem with paths etc.
 Using **pnpm** as package manager seemed to make a difference.
+
+### I am getting 504 HTTP error
+
+
+Please increase `maxDuration` for the serverless functions in `vercel.json`:
+
+```json
+"functions": {
+  "api/**/*": {
+    "maxDuration": 60
+  }
+}
+```
+
 
 ### Reference
 
