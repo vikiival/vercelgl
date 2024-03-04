@@ -38,6 +38,38 @@ const performCanvasCapture = async (page: any, canvasSelector: string) => {
   }
 }
 
+const exePath =
+    process.platform === "win32"
+        ? "C:\\Program Files (x86)\\Google\\Chrome\\Application\\chrome.exe"
+        : process.platform === "linux"
+        ? "/usr/bin/google-chrome"
+        : "/Applications/Google Chrome.app/Contents/MacOS/Google Chrome";
+
+async function getOptions(isDev: boolean) {
+  let options;
+  console.log('exePath:', exePath);
+  if (isDev) {
+      options = {
+      args: [],
+      executablePath: exePath,
+      headless: 'new',
+      };
+  } else {
+      // fetch executable from git (for free servers)
+      // in case of prod, store this image in S3 to reduce network cost
+      options = {
+          args: [...chrome.args, '--hide-scrollbars', '--disable-web-security'],
+          defaultViewport: chrome.defaultViewport,
+          executablePath: await chrome.executablePath(
+              `https://github.com/Sparticuz/chromium/releases/download/v116.0.0/chromium-v116.0.0-pack.tar`
+          ),
+          headless: chrome.headless,
+          ignoreHTTPSErrors: true,
+      };
+  }
+  return options;
+}
+
 export default async (req: any, res: any) => {
   let {
     // query: { hash, path, resolution },
@@ -65,20 +97,8 @@ export default async (req: any, res: any) => {
 
   let browser
 
-  if (isProd) {
-    browser = await puppeteer.launch({
-      args: chrome.args,
-      defaultViewport: chrome.defaultViewport,
-      executablePath: await chrome.executablePath(),
-      headless: 'new',
-      ignoreHTTPSErrors: true
-    })
-  } else {
-    browser = await puppeteer.launch({
-      headless: 'new',
-      executablePath: '/Applications/Google Chrome.app/Contents/MacOS/Google Chrome',
-    })
-  }
+  const options = await getOptions(!isProd)
+  browser = await puppeteer.launch(options);
 
   const page = await browser.newPage()
 
