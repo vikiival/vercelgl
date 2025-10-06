@@ -1,5 +1,4 @@
 
-// const chrome = require('@sparticuz/chromium')
 import puppeteer from 'puppeteer-core'
 
 // const getAbsoluteURL = (hash: string, path?: string) => {
@@ -67,13 +66,14 @@ export default async (req: any, res: any) => {
 
   if (isProd) {
     const chromium = (await import("@sparticuz/chromium")).default;
-    // const puppeteer = await import("puppeteer-core");
     browser = await puppeteer.launch({
       args: chromium.args,
-      // defaultViewport: chromium.defaultViewport,
+      defaultViewport: {
+        width: 600,
+        height: 600
+      },
       executablePath: await chromium.executablePath(),
-      headless: true,
-      // ignoreHTTPSErrors: true
+      headless: true
     })
   } else {
     browser = await puppeteer.launch({
