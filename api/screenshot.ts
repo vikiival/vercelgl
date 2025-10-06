@@ -1,6 +1,6 @@
 
-const chrome = require('@sparticuz/chromium')
-const puppeteer = require('puppeteer-core')
+// const chrome = require('@sparticuz/chromium')
+import puppeteer from 'puppeteer-core'
 
 // const getAbsoluteURL = (hash: string, path?: string) => {
 //   if (!process.env.NODE_ENV) {
@@ -25,7 +25,7 @@ const puppeteer = require('puppeteer-core')
 const performCanvasCapture = async (page: any, canvasSelector: string) => {
   try {
     // get the base64 image from the CANVAS targetted
-    const base64 = await page.$eval(canvasSelector, el => {
+    const base64 = await page.$eval(canvasSelector, (el: { tagName: string; toDataURL: () => any }) => {
       if (!el || el.tagName !== "CANVAS") return null
       return el.toDataURL()
     })
@@ -66,16 +66,18 @@ export default async (req: any, res: any) => {
   let browser
 
   if (isProd) {
+    const chromium = (await import("@sparticuz/chromium")).default;
+    // const puppeteer = await import("puppeteer-core");
     browser = await puppeteer.launch({
-      args: chrome.args,
-      defaultViewport: chrome.defaultViewport,
-      executablePath: await chrome.executablePath(),
-      headless: 'new',
-      ignoreHTTPSErrors: true
+      args: chromium.args,
+      // defaultViewport: chromium.defaultViewport,
+      executablePath: await chromium.executablePath(),
+      headless: true,
+      // ignoreHTTPSErrors: true
     })
   } else {
     browser = await puppeteer.launch({
-      headless: 'new',
+      headless: true,
       executablePath: '/Applications/Google Chrome.app/Contents/MacOS/Google Chrome',
     })
   }
