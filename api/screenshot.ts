@@ -70,7 +70,7 @@ export default async (req: any, res: any) => {
       args: chromium.args,
       defaultViewport: {
         width: 600,
-        height: 600
+        height: 935
       },
       executablePath: await chromium.executablePath(),
       headless: true
@@ -84,26 +84,29 @@ export default async (req: any, res: any) => {
 
   const page = await browser.newPage()
 
-  await page.setViewport({ width: 600, height: 600 })
 
-  // const url = getAbsoluteURL(`?hash=${hash}`, path)
   const url = body.url
 
   console.log('url', url)
 
   await page.goto(url);
 
-  const selector = 'canvas';
+  // const selector = 'canvas';
 
-  await page.waitForSelector(selector);
+  // await page.wa(selector);
 
-  const element = await performCanvasCapture(page, selector) // const element = page.$(selector)
+  // const element = await performCanvasCapture(page, selector) // const element = page.$(selector)
 
-  // const data = await page.screenshot({
-  //   type: 'png'
-  // })
+  // wait like 4 seconds for the 3D to load
+  // await page.waitForFunction(() => new Promise(resolve => setTimeout(resolve, 4000)))
 
-  const data = element
+  const data = await page.screenshot({
+    type: 'png'
+  })
+
+  // const data = element
+
+
 
   await browser.close()
   // Set the s-maxage property which caches the images then on the Vercel edge
