@@ -89,6 +89,7 @@ export default async (req: any, res: any) => {
 
   console.log('url', url)
 
+  // networkidle0 waits for all requests to finish
   await page.goto(url, { waitUntil: 'networkidle0' });
 
   // const selector = 'canvas';
