@@ -89,7 +89,7 @@ export default async (req: any, res: any) => {
 
   console.log('url', url)
 
-  await page.goto(url);
+  await page.goto(url, { waitUntil: 'networkidle0' });
 
   // const selector = 'canvas';
 
