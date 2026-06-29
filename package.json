@@ -9,15 +9,15 @@
   "author": "Viki Val",
   "license": "MIT",
   "dependencies": {
-    "@sparticuz/chromium": "^140.0.0",
-    "puppeteer-core": "^24.23.0"
+    "@sparticuz/chromium": "^149.0.0",
+    "puppeteer-core": "^25.2.1"
   },
   "devDependencies": {
-    "@types/node": "^24.7.0",
-    "typescript": "^5.9.3"
+    "@types/node": "^26.0.1",
+    "typescript": "^6.0.3"
     
   },
   "engines": {
-    "node": "22"
+    "node": "24"
   }
 }
