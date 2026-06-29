@@ -37,28 +37,69 @@ const performCanvasCapture = async (page: any, canvasSelector: string) => {
   }
 }
 
+const setCorsHeaders = (res: any) => {
+  res.setHeader('Access-Control-Allow-Credentials', true)
+  res.setHeader('Access-Control-Allow-Origin', '*')
+  res.setHeader('Access-Control-Allow-Methods', 'GET,OPTIONS,PATCH,DELETE,POST,PUT')
+  res.setHeader(
+    'Access-Control-Allow-Headers',
+    'X-CSRF-Token, X-Requested-With, Accept, Accept-Version, Content-Length, Content-MD5, Content-Type, Date, X-Api-Version'
+  )
+}
+
+const getRequestUrl = (req: any) => {
+  if (req.method === 'GET') {
+    const url = req.query?.url
+    const queryKeys = Object.keys(req.query ?? {})
+
+    if (queryKeys.some((key) => key !== 'url')) {
+      throw new Error('Only url query parameter is supported')
+    }
+
+    if (Array.isArray(url)) {
+      throw new Error('Only one url is supported')
+    }
+
+    return url
+  }
+
+  if (req.method === 'POST') {
+    return req.body?.url
+  }
+
+  return null
+}
+
 export default async (req: any, res: any) => {
   let {
     // query: { hash, path, resolution },
-    body,
     method
   } = req
 
-  if (method !== 'POST') {
+  if (method === 'OPTIONS') {
     // CORS https://vercel.com/guides/how-to-enable-cors
-    res.setHeader('Access-Control-Allow-Credentials', true)
-    res.setHeader('Access-Control-Allow-Origin', '*')
-    res.setHeader('Access-Control-Allow-Methods', 'GET,OPTIONS,PATCH,DELETE,POST,PUT')
-    res.setHeader(
-      'Access-Control-Allow-Headers',
-      'X-CSRF-Token, X-Requested-With, Accept, Accept-Version, Content-Length, Content-MD5, Content-Type, Date, X-Api-Version'
-    )
+    setCorsHeaders(res)
     return res.status(200).end()
   }
 
-  if (!body) return res.status(400).end(`No body provided`)
+  if (!['GET', 'POST'].includes(method)) {
+    setCorsHeaders(res)
+    return res.status(405).end('Method not allowed')
+  }
 
-  if (typeof body === 'object' && !body.url) return res.status(400).end(`No url provided`)
+  let url
+
+  try {
+    url = getRequestUrl(req)
+  } catch (err) {
+    setCorsHeaders(res)
+    return res.status(400).end((err as Error).message)
+  }
+
+  if (!url || typeof url !== 'string') {
+    setCorsHeaders(res)
+    return res.status(400).end(`No url provided`)
+  }
 
   const isProd = process.env.NODE_ENV === 'production'
 
@@ -86,9 +127,6 @@ export default async (req: any, res: any) => {
 
   await page.setViewport({ width: 600, height: 600 })
 
-  // const url = getAbsoluteURL(`?hash=${hash}`, path)
-  const url = body.url
-
   console.log('url', url)
 
   await page.goto(url);
@@ -111,12 +149,6 @@ export default async (req: any, res: any) => {
   res.setHeader('Content-Type', 'image/png')
   // CORS
   // res.setHeader('Access-Control-Allow-Headers', '*')
-  res.setHeader('Access-Control-Allow-Credentials', true)
-  res.setHeader('Access-Control-Allow-Origin', '*')
-  res.setHeader('Access-Control-Allow-Methods', 'GET,OPTIONS,PATCH,DELETE,POST,PUT')
-  res.setHeader(
-    'Access-Control-Allow-Headers',
-    'X-CSRF-Token, X-Requested-With, Accept, Accept-Version, Content-Length, Content-MD5, Content-Type, Date, X-Api-Version'
-  )
+  setCorsHeaders(res)
   res.end(data)
 }
