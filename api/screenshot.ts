@@ -35,8 +35,6 @@ const performCanvasCapture = async (page: any, canvasSelector: string) => {
   }
 }
 
-const importEsm = new Function("specifier", "return import(specifier)") as <T>(specifier: string) => Promise<T>
-
 export default async (req: any, res: any) => {
   let {
     // query: { hash, path, resolution },
@@ -63,10 +61,10 @@ export default async (req: any, res: any) => {
   const isProd = process.env.NODE_ENV === 'production'
 
   let browser
-  const { default: puppeteer } = await importEsm<typeof import("puppeteer-core")>("puppeteer-core")
+  const { default: puppeteer } = await import("puppeteer-core")
 
   if (isProd) {
-    const { default: chromium } = await importEsm<typeof import("@sparticuz/chromium")>("@sparticuz/chromium")
+    const { default: chromium } = await import("@sparticuz/chromium")
     browser = await puppeteer.launch({
       args: chromium.args,
       defaultViewport: {
