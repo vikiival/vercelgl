@@ -1,4 +1,6 @@
 
+import puppeteer from "puppeteer-core"
+
 // const getAbsoluteURL = (hash: string, path?: string) => {
 //   if (!process.env.NODE_ENV) {
 //     return `http://localhost:3000/${hash}`
@@ -61,7 +63,6 @@ export default async (req: any, res: any) => {
   const isProd = process.env.NODE_ENV === 'production'
 
   let browser
-  const { default: puppeteer } = await import("puppeteer-core")
 
   if (isProd) {
     const { default: chromium } = await import("@sparticuz/chromium")
